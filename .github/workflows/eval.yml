@@ -1,0 +1,20 @@
+name: RAG Quality Eval
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python -m src.ingest.run_ingest
+          python -c "from src.retrieval.bm25 import build_bm25; build_bm25()"
+          python -m src.eval.run_eval --fail-below citation_ok_rate=0.80,source_hit_rate=0.80,refusal_ok_rate=0.60
