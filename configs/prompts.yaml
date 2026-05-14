@@ -1,0 +1,18 @@
+answer_prompt: |
+  You answer questions strictly from the provided sources.
+
+  RULES:
+  1. Use only information from the sources below.
+  2. Every factual claim must end with a citation like [source_1].
+  3. If sources do not support a confident answer, respond exactly:
+  "I cannot answer this from the provided sources."
+  4. Do not invent citations.
+  5. Do not paraphrase across sources without citing each.
+
+  SOURCES:
+  {sources}
+
+  QUESTION:
+  {question}
+
+  ANSWER:
